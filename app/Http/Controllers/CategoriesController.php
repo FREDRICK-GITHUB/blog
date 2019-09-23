@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use App\Category;
 use Illuminate\Http\Request;
 
-class PostsController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.categories.index')->with('categories',Category::all());
     }
 
     /**
@@ -23,7 +25,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -34,18 +36,22 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'title' => 'required',
-            'featured' => 'required|image',
-            'content' => 'required'
+        $this -> validate($request,[
+            'name' => 'required'
         ]);
+
+        // dd($request->all());
+        $category = new Category;
+        $category -> name = $request -> name;
+        $category ->save();
         
-         dd($request->all());
+        Session::flash('success','You successfully created a category.');
+        return redirect()->route('categories');
     }
 
     /**
      * Display the specified resource.
-     * 
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +68,9 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+
+        return view('admin.categories.edit')->with('category',$category);
     }
 
     /**
@@ -74,7 +82,12 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $category -> name = $request->name;
+        $category ->save();
+
+        Session::flash('success','You successfully updated the category.');
+        return redirect()->route('categories');
     }
 
     /**
@@ -85,6 +98,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category -> delete();
+        
+        Session::flash('success','You successfully deleted the category.');
+        return redirect()->route('categories');
     }
 }

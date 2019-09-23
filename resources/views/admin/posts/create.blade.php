@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @include('admin.includes.errors')
+
     <div class="panel panel-default">
         <div class="panel-heading">
             Create a new post
         </div>
         <div class="panel-body">
-        <form action="{{route('post.store')}}" method="POST">
+        <form action="{{route('post.store')}}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="title">
