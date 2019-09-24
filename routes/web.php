@@ -17,8 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-
 Route::group(['prefix' => 'admin','middleware' => 'auth'],function(){
         Route::get('/home', [
             'uses' =>'HomeController@index',
@@ -33,6 +31,41 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'],function(){
         Route::post('/post/store',[
             'uses' => 'PostsController@store',
             'as' => 'post.store'
+        ]);
+
+        Route::get('/posts',[
+            'uses' => 'PostsController@index',
+            'as' => 'posts'
+        ]);
+
+        Route::get('/posts/trashed',[
+            'uses' => 'PostsController@trashed',
+            'as' => 'posts.trashed'
+        ]);
+
+        Route::get('/posts/kill/{id}',[
+            'uses' => 'PostsController@kill',
+            'as' => 'post.kill'
+        ]);
+        
+         Route::get('/posts/restore/{id}',[
+            'uses' => 'PostsController@restore',
+            'as' => 'post.restore'
+        ]);
+
+         Route::get('/posts/edit/{id}',[
+            'uses' => 'PostsController@edit',
+            'as' => 'post.edit'
+        ]);
+
+        Route::post('/posts/update/{id}',[
+            'uses' => 'PostsController@update',
+            'as' => 'post.update'
+        ]);
+
+        Route::get('/post/delete/{id}',[
+            'uses' => 'PostsController@destroy',
+            'as' => 'post.delete'
         ]);
 
         Route::get('/category/create',[
