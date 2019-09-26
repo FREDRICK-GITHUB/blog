@@ -11,7 +11,7 @@
 |
 */
 Route::get('/test',function(){
-    return App\Post::find(14)->tags;
+    return App\User::find(1)->profile;
 });
 
 
@@ -131,6 +131,45 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'],function(){
         Route::get('/tag/delete/{id}',[
             'uses'=> 'TagsController@destroy',
             'as' => 'tag.delete'
+        ]);
+
+        Route::get('/users',[
+            'uses' => 'UsersController@index',
+            'as' => 'users'
+        ]);
+        Route::get('/users/create',[
+            'uses' => 'UsersController@create',
+            'as' => 'user.create'
+        ]);
+
+        Route::post('/users/store',[
+            'uses' => 'UsersController@store',
+            'as' => 'user.store'
+        ]);
+
+        Route::get('user/admin/{id}',[
+            'uses' => 'UsersController@admin',
+            'as' => 'user.admin'
+        ]);
+
+        Route::get('user/not-admin/{id}',[
+            'uses' => 'UsersController@not_admin',
+            'as' => 'user.not.admin'
+        ]);
+
+        Route::get('user/profile',[
+            'uses' => 'ProfilesController@index',
+            'as' => 'user.profile'
+        ]);
+
+         Route::get('user/delete/{id}',[
+            'uses' => 'UsersController@destroy',
+            'as' => 'user.delete'
+        ]);
+
+        Route::post('/user/profile/update',[
+            'uses' => 'ProfilesController@update',
+            'as' => 'user.profile.update'
         ]);
 
 });
